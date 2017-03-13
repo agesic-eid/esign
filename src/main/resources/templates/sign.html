@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Demo Plataforma e-Firma</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script type="text/javascript">
+	function submit() {
+		document.form.submit();
+	}
+	window.onload = submit;
+</script>
+
+</head>
+<body>
+	<form th:action="${targetURL}" method="post" name="form">
+		<input type="hidden" name="SignRequest" th:value="${requestData}" />
+		<noscript>
+			<input type="submit" value="Enviar para firmar" />
+		</noscript>
+	</form>
+</body>
+</html>
