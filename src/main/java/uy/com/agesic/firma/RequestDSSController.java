@@ -1,13 +1,7 @@
 package uy.com.agesic.firma;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Collections;
@@ -39,17 +33,18 @@ public class RequestDSSController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
 
-		String name = file.getOriginalFilename();
+		//String name = file.getOriginalFilename();
 
 		if (!file.isEmpty()) {
 			try {
 
-				byte[] bytes = file.getBytes();
-
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File("/Library/Tomcat/apache-tomcat-8.5.11/temp/" + name)));
-				stream.write(bytes);
-				stream.close();
+				//byte[] bytes = file.getBytes();
+				byte[] documento = file.getBytes();
+				
+				//BufferedOutputStream stream = new BufferedOutputStream(
+				//		new FileOutputStream(new File("/Library/Tomcat/apache-tomcat-8.5.11/temp/" + name)));
+				//stream.write(bytes);
+				//stream.close();
 
 				/*
 				 * Inicio código del DSS
@@ -83,8 +78,8 @@ public class RequestDSSController {
 				// "Texto a
 				// firmar para el taller.".getBytes(), true);
 
-				Path path = Paths.get("/Library/Tomcat/apache-tomcat-8.5.11/temp/" + name);
-				byte[] documento = Files.readAllBytes(path);
+				//Path path = Paths.get("/Library/Tomcat/apache-tomcat-8.5.11/temp/" + name);
+				//byte[] documento = Files.readAllBytes(path);
 
 				Map<String, byte[]> signedAttributes = new HashMap<String, byte[]>(); // Atributos
 
