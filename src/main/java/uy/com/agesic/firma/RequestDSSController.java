@@ -66,7 +66,7 @@ public class RequestDSSController {
 				xmlDSigRS.setSignatureMethod("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256");
 
 				RequestBuilderImpl requestBuilder = new RequestBuilderImpl(jcaKeyStoreSignatureKeyService, xmlDSigRS,
-						"plataformafirma", "http://plataformafirma.gub.uy:8080/respuestaDSS");
+						"plataformafirma", "http://test-firma.agesic.gub.uy:8080/firma-1.0/respuestaDSS");
 				requestBuilder.setSignatureMethods(Collections.singletonList("SmartCard"));
 
 				String requestData = "";

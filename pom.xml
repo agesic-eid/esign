@@ -11,6 +11,16 @@
 	<name>firma</name>
 	<description>Plataforma eFirma</description>
 
+	<repositories>
+		<repository>
+			<id>dropbox-mvn-repo</id>
+			<name>My Dropbox Repository</name>
+			<url>
+          		https://www.dropbox.com/l/scl/AAArqGcFiy2BCZO2iAW3DRH6bSft2H3NnxM
+        	</url>
+		</repository>
+	</repositories>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
