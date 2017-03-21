@@ -11,6 +11,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,47 +28,66 @@ import com.gemalto.ics.rnd.egov.dss.sdk.create.signature.XmlDSigRequestSigner;
 import groovy.lang.Grab;
 
 @Grab("org.webjars:jquery:2.0.3-1")
-
+@PropertySource("classpath:/config.properties")
 @Controller
 public class RequestDSSController {
+
+	/*
+	 * KeyStore configuration parameters
+	 */
+
+	@Value("${keystore.route}")
+	private String keyStoreRoute;
+
+	@Value("${keystore.key}")
+	private String keyStoreKey;
+
+	@Value("${keystore.alias}")
+	private String keyStoreAlias;
+
+	/*
+	 * DSS request configuration parameters
+	 */
+
+	@Value("${dss.service.name}")
+	private String dssServiceName;
+
+	@Value("${dss.response.url}")
+	private String dssResponseURL;
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
 
-		//String name = file.getOriginalFilename();
-
 		if (!file.isEmpty()) {
 			try {
 
-				//byte[] bytes = file.getBytes();
+				// byte[] bytes = file.getBytes();
 				byte[] documento = file.getBytes();
-				
-				//BufferedOutputStream stream = new BufferedOutputStream(
-				//		new FileOutputStream(new File("/Library/Tomcat/apache-tomcat-8.5.11/temp/" + name)));
-				//stream.write(bytes);
-				//stream.close();
 
-				/*
-				 * Inicio código del DSS
-				 */
+				// BufferedOutputStream stream = new BufferedOutputStream(
+				// new FileOutputStream(new
+				// File("/Library/Tomcat/apache-tomcat-8.5.11/temp/" + name)));
+				// stream.write(bytes);
+				// stream.close();
 
 				Security.addProvider(new BouncyCastleProvider());
-				InputStream ks = new FileInputStream(
-						"/Users/rodrigo/Documents/AGESIC/Develop/TestDSSFiles/client-keystore.p12");
+				InputStream ks = new FileInputStream(keyStoreRoute);
 				JCAKeyStoreSignatureKeyService jcaKeyStoreSignatureKeyService = new JCAKeyStoreSignatureKeyService("BC",
-						"PKCS12", ks, "123456", "sp-signing-key");
+						"PKCS12", ks, keyStoreKey, keyStoreAlias);
 
 				XmlDSigRequestSigner xmlDSigRS = new XmlDSigRequestSigner();
 				xmlDSigRS.setDigestMethod("http://www.w3.org/2001/04/xmlenc#sha256");
 				xmlDSigRS.setSignatureMethod("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256");
 
 				RequestBuilderImpl requestBuilder = new RequestBuilderImpl(jcaKeyStoreSignatureKeyService, xmlDSigRS,
-						"plataformafirma", "http://test-firma.agesic.gub.uy:8080/firma-1.0/respuestaDSS");
+						dssServiceName, dssResponseURL);
 				requestBuilder.setSignatureMethods(Collections.singletonList("SmartCard"));
 
 				String requestData = "";
 
-				String requestId = ""; // identifier of OASIS DSS request
+				// OASIS DSS request identifier
+				String requestId = "";
+
 				/* Generación de numero aleatorio */
 				SecureRandom secureRandom = new SecureRandom();
 				double random = secureRandom.nextDouble();
@@ -78,8 +99,10 @@ public class RequestDSSController {
 				// "Texto a
 				// firmar para el taller.".getBytes(), true);
 
-				//Path path = Paths.get("/Library/Tomcat/apache-tomcat-8.5.11/temp/" + name);
-				//byte[] documento = Files.readAllBytes(path);
+				// Path path =
+				// Paths.get("/Library/Tomcat/apache-tomcat-8.5.11/temp/" +
+				// name);
+				// byte[] documento = Files.readAllBytes(path);
 
 				Map<String, byte[]> signedAttributes = new HashMap<String, byte[]>(); // Atributos
 
@@ -97,9 +120,6 @@ public class RequestDSSController {
 
 				return "sign";
 
-				/*
-				 * fin del código del DSS
-				 */
 			} catch (Exception e) {
 				return "La carga del archivo falló" + " => " + e.getMessage();
 			}
