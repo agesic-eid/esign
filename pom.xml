@@ -50,9 +50,9 @@
 			<version>1.56</version>
 		</dependency>
 		<dependency>
-			<groupId>com.gemalto.dss</groupId>
-			<artifactId>dss-2</artifactId>
-			<version>1.0.0</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.gemalto.dss</groupId>
@@ -60,9 +60,9 @@
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
+			<groupId>com.gemalto.dss</groupId>
+			<artifactId>dss-2</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 
