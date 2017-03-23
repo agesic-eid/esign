@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.tika.Tika;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,14 +62,17 @@ public class RequestDSSController {
 		if (!file.isEmpty()) {
 			try {
 
-				// byte[] bytes = file.getBytes();
-				byte[] documento = file.getBytes();
+				// Detect file type, only pdf
+				Tika tika = new Tika();
+				try {
+					if (!tika.detect(file.getBytes()).equals("application/pdf")) {
+						return "El archivo debe ser un pdf";
+					}
+				} catch (Exception e) {
+					return "La carga del archivo falló" + " => " + e.getMessage();
+				}
 
-				// BufferedOutputStream stream = new BufferedOutputStream(
-				// new FileOutputStream(new
-				// File("/Library/Tomcat/apache-tomcat-8.5.11/temp/" + name)));
-				// stream.write(bytes);
-				// stream.close();
+				byte[] documento = file.getBytes();
 
 				Security.addProvider(new BouncyCastleProvider());
 				InputStream ks = new FileInputStream(keyStoreRoute);
@@ -88,21 +92,12 @@ public class RequestDSSController {
 				// OASIS DSS request identifier
 				String requestId = "";
 
-				/* Generación de numero aleatorio */
+				/* Generación de numero aleatorio para el request */
 				SecureRandom secureRandom = new SecureRandom();
 				double random = secureRandom.nextDouble();
 				requestId = "" + random;
 
 				String targetURL = "https://test-eid.portal.gub.uy/dss/dss/post";
-
-				// requestData = requestBuilder.buildCMSSignRequest(requestId,
-				// "Texto a
-				// firmar para el taller.".getBytes(), true);
-
-				// Path path =
-				// Paths.get("/Library/Tomcat/apache-tomcat-8.5.11/temp/" +
-				// name);
-				// byte[] documento = Files.readAllBytes(path);
 
 				Map<String, byte[]> signedAttributes = new HashMap<String, byte[]>(); // Atributos
 
