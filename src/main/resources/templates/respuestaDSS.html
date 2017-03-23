@@ -4,11 +4,23 @@
 <title>Demo Plataforma e-Firma</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
+<script type="text/javascript">
+	function submit() {
+		document.form.submit();
+	}
+	window.onload = submit;
+</script>
+
 </head>
 <body>
 	<h1>PDF firmado</h1>
-	<p>
-		<a href="download">Descarga tu PDF firmado</a> <a th:href="@{/}">Volver</a>
-	</p>
+	<p />
+
+
+	<form action="download" method="get" name="form">
+		<input type="submit" value="Volver a descargar" />
+	</form>
+
+	<a th:href="@{/}">Firmar otro PDF</a>
 </body>
 </html>

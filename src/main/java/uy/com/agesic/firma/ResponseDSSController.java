@@ -56,7 +56,8 @@ public class ResponseDSSController {
 	 * Method for handling signed response from the DSS server
 	 */
 	@RequestMapping(value = "/respuestaDSS", method = RequestMethod.POST)
-	public String response(@RequestParam("SignResponse") String[] signResponse) throws IOException {
+	public String response(@RequestParam("SignResponse") String[] signResponse, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
 
 		Security.addProvider(new BouncyCastleProvider());
 		InputStream ts = new FileInputStream(trustStoreRoute);
