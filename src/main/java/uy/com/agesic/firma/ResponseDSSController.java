@@ -92,7 +92,7 @@ public class ResponseDSSController {
 		ServletContext context = request.getServletContext();
 
 		// construct the complete absolute path of the file
-		String fullPath = signedDocumentPath += signedDocumentName;
+		String fullPath = signedDocumentPath + signedDocumentName;
 		File downloadFile = new File(fullPath);
 		FileInputStream inputStream = new FileInputStream(downloadFile);
 
@@ -125,7 +125,6 @@ public class ResponseDSSController {
 
 		inputStream.close();
 		outStream.close();
-
 	}
 
 }
