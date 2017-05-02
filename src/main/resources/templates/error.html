@@ -3,8 +3,34 @@
 <head>
 <title>Página de error Plataforma e-Firma</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<style>
+body {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 13px;
+}
+
+.error {
+	border: 1px solid;
+	color: #D8000C;
+	background-color: #FFBABA;
+	margin: 10px 0px;
+	padding: 15px 10px 15px 50px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
+
+img {
+	position: absolute;
+	top: 2%;
+	right: 2%;
+	width: 21%;
+}
+</style>
+
 </head>
 <body>
-	<h1>Error</h1>
+	<img src="_img/LogoAgesic.png" alt="Logo AGESIC"></img>
+	<div class="error" th:text="${error}">Mensaje de error</div>
 </body>
 </html>

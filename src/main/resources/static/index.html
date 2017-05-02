@@ -1,17 +1,167 @@
-<!DOCTYPE HTML>
+<!-- <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Demo Plataforma e-Firma</title>
+<title>Plataforma e-Firma</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<style>
+
+.container{
+	background-color: #000000;
+}
+input[type=file], select {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+input[type=submit] {
+	width: 100%;
+	background-color: #3155A5;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+input[type=submit]:hover {
+	background-color: #004B87;
+}
+
+div {
+	border-radius: 5px;
+	background-color: #FFFFFF;
+	padding: 20px;
+}
+
+h1 {
+	font-family: 'Montserrat', sans-serif;
+	text-align: left;
+	color: #3155A5;
+}
+
+img {
+	position: absolute;
+	top: 2%;
+	right: 2%;
+	width: 21%;
+}
+</style>
+
 </head>
 <body>
-	<h1>Upload PDF</h1>
+	<h1>Firma tu PDF digitalmente</h1>
+	<img src="_img/LogoAgesic.png" alt="Logo AGESIC"></img>
 	<div class="container">
 		<form action="upload" method="POST" enctype="multipart/form-data">
-			Archivo para firmar: <input type="file" accept="application/pdf"
-				name="file" /> <br /> <input type="submit" value="Subir" /> Clic
-			aquí para subir archivo!
+			<input type="file" accept="application/pdf" name="file"><input
+				type="submit" value="Subir">
 		</form>
 	</div>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="es">
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<title>Portada - Plataforma de e-firma</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- styles -->
+<link rel="stylesheet" href="./css/portal-tipo.css">
+<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="./css/formulario-tipo.css">
+
+<!-- polyfills -->
+<!--[if lt IE 9]>
+    <script src="./dist/js/vendor/polyfills.js"></script>
+  <![endif]-->
+
+<!-- meta info -->
+<meta name="theme-color" content="#005cb9">
+<meta name="description" content="">
+
+<meta property="og:title" content="Portada - Portal Tipo">
+<meta property="og:description" content="">
+<meta property="og:image" content="">
+</head>
+<body>
+	<a class="SkipLink" href="#contenido">Ir al contenido</a>
+	<a class="SkipLink" href="#menu">Ir al menú de navegación</a>
+
+
+	<!-- header -->
+	<header class="Container">
+		<div class="Header">
+			<div class="u-left">
+				<img src="./img/uruguay-gub-uy.png" class="u-left" /> <span
+					class="u-left u-ml1">Plataforma de e-firma</span>
+			</div>
+			<img class="u-right u-ml1" src="./img/logo-uruguay-digital.png" /> <img
+				class="u-right" src="./img/logo-presidencia.png" />
+		</div>
+	</header>
+
+	<div class="Hero Hero--circle Hero--small">
+		<div class="Hero-body">
+			<div class="Container">
+				<div class="Hero-title">Firma electrónica</div>
+				<div class="Hero-image">
+					<div class="Crop Crop--circle">
+						<img src="./img/e-sign.jpg" alt="">
+					</div>
+				</div>
+				<div class="Hero-description">A través de esta plataforma
+					podrá firmar documentos (PDF) de forma electrónica utlizando su
+					DNIe y un lector de tarjetas.</div>
+				<!-- <a href="#" class="Button Button--secondary Hero-button"> ¿Donde
+					conseguir lector de tarjetas? </a>-->
+			</div>
+		</div>
+	</div>
+
+	<main class="u-main" id="contenido">
+	<div class="Container">
+		<div class="Grid">
+			<div class="Grid-item">
+				<div class="Box">
+					<div class="Box-header">Selección de documento</div>
+					<div class="Box-body">
+						<form action="upload" method="POST" enctype="multipart/form-data">
+							<ul class="form-group-list">
+								<li><label>Documento a firmar:</label> <input type="file"
+									accept="application/pdf" name="file"></li>
+								<li><label></label>
+									<button class="btn-lg btn-primario" type="submit">Ir a
+										firmar este documento</button></li>
+							</ul>
+						</form>
+					</div>
+				</div>
+				<div id="footer" class="row">
+					<!-- <a href="" class="u-left">Contacto</a>-->
+					<img class="u-right" src="./img/logo-agesic.png" />
+				</div>
+			</div>
+		</div>
+	</div>
+	</main>
+
+	<script src="./dist/js/vendor/jquery.min.js"></script>
+	<script src="./dist/js/portal-tipo.min.js" async></script>
+
 </body>
 </html>

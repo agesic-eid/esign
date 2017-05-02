@@ -8,6 +8,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.tika.Tika;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -56,8 +61,16 @@ public class RequestDSSController {
 	@Value("${dss.response.url}")
 	private String dssResponseURL;
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
+	public String handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request, Model model) {
+
+		String sessionId = request.getSession().getId();
+
+		TimeSingleton.getInstance().setFirstTime();
+
+		log.info("IDENTIFICADOR DE SESION: " + sessionId);
 
 		if (!file.isEmpty()) {
 			try {
@@ -66,11 +79,17 @@ public class RequestDSSController {
 				Tika tika = new Tika();
 				try {
 					if (!tika.detect(file.getBytes()).equals("application/pdf")) {
-						return "El archivo debe ser un pdf";
+						log.info(sessionId + " NO SUBIO PDF");
+						model.addAttribute("error", "Debes seleccionar un archivo tipo PDF");
+						return "error";
 					}
 				} catch (Exception e) {
-					return "La carga del archivo falló" + " => " + e.getMessage();
+					log.info(sessionId + " NO PUDO SUBIR EL ARCHIVO");
+					model.addAttribute("error", "Error al subir el archivo, intenta nuevamente");
+					return "error";
 				}
+
+				log.info(sessionId + " SUBIO EL ARCHIVO CORRECTAMENTE");
 
 				byte[] documento = file.getBytes();
 
@@ -113,13 +132,19 @@ public class RequestDSSController {
 				model.addAttribute("requestData", newRequestData);
 				model.addAttribute("targetURL", targetURL);
 
+				log.info(sessionId + " ENVIO REQUEST AL DSS");
+
 				return "sign";
 
 			} catch (Exception e) {
-				return "La carga del archivo falló" + " => " + e.getMessage();
+				log.info(sessionId + " NO PUDO SUBIR EL ARCHIVO");
+				model.addAttribute("error", "Error al subir el archivo, intenta nuevamente");
+				return "error";
 			}
 		} else {
-			return "La carga del archivo falló porque estaba vacía";
+			log.info(sessionId + " INTENTO SUBIR ARCHIVO VACIO");
+			model.addAttribute("error", "Debes seleccionar un archivo PDF para firmar");
+			return "error";
 		}
 	}
 }

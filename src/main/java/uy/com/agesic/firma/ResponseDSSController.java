@@ -12,6 +12,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,12 +55,16 @@ public class ResponseDSSController {
 
 	private static final int BUFFER_SIZE = 4096;
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	/**
 	 * Method for handling signed response from the DSS server
 	 */
 	@RequestMapping(value = "/respuestaDSS", method = RequestMethod.POST)
 	public String response(@RequestParam("SignResponse") String[] signResponse, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
+
+		String sessionId = request.getSession().getId();
 
 		Security.addProvider(new BouncyCastleProvider());
 		InputStream ts = new FileInputStream(trustStoreRoute);
@@ -80,6 +87,9 @@ public class ResponseDSSController {
 			salida.close();
 
 		}
+
+		log.info(sessionId + " RECIBIO EL ARCHIVO DEL DSS");
+
 		return "respuestaDSS";
 	}
 
@@ -88,6 +98,8 @@ public class ResponseDSSController {
 	 */
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+		String sessionId = request.getSession().getId();
 
 		// get absolute path of the application
 		ServletContext context = request.getServletContext();
@@ -126,6 +138,16 @@ public class ResponseDSSController {
 
 		inputStream.close();
 		outStream.close();
+
+		log.info(sessionId + " DESCARGO EL ARCHIVO");
+		TimeSingleton.getInstance().setSecondTime();
+		if (TimeSingleton.getInstance().getCurrentTime()[0] != null) {
+
+			Long timeResult = (TimeSingleton.getInstance().getCurrentTime()[1]
+					- TimeSingleton.getInstance().getCurrentTime()[0]) / 1000;
+			log.info(sessionId + " TARDO " + timeResult + "s EN FIRMAR PDF");
+		}
+
 	}
 
 }

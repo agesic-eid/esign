@@ -1,0 +1,32 @@
+/* ==============================================================
+##############################################################
+##          ESTILOS PARA PRESENTACION DE FORMULARIO            ##
+##############################################################
+============================================================== */
+/* Cabezal */
+.header {
+  padding: 25px;
+  border-bottom: 2px solid #0A5584;
+  margin-bottom: 60px;
+}
+
+.header .logo {
+  height: 60px;
+}
+
+.header .logo2 {
+  float: right;
+  text-align: right;
+}
+
+.header .logo2 img {
+  height: 25px;
+}
+
+.header .logo2 p {
+  margin-top: 20px;
+}
+
+.header .logo2 p strong {
+  text-decoration: underline;
+}

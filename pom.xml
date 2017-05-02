@@ -80,7 +80,7 @@
 				<version>2.2</version>
 				<configuration>
 					<url>http://localhost:8080/manager/text</url>
-					<!--<url>http://10.255.0.118:8080/manager/text</url> -->
+					<!-- <url>http://10.255.0.118:8080/manager/text</url> -->
 					<server>TomcatServer</server>
 					<path>/firma-1.0</path>
 				</configuration>
