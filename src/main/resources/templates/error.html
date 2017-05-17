@@ -1,36 +1,59 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Página de error Plataforma e-Firma</title>
+
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+<title>Error - Plataforma e-Firma</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-body {
-	font-family: 'Montserrat', sans-serif;
-	font-size: 13px;
-}
+<link rel="stylesheet" href="./css/portal-tipo.css" />
+<link rel="stylesheet" href="./css/style.css" />
+<link rel="stylesheet" href="./css/formulario-tipo.css" />
 
-.error {
-	border: 1px solid;
-	color: #D8000C;
-	background-color: #FFBABA;
-	margin: 10px 0px;
-	padding: 15px 10px 15px 50px;
-	background-repeat: no-repeat;
-	background-position: 10px center;
-}
+<!-- meta info -->
+<meta name="theme-color" content="#005cb9" />
+<meta name="description" content="" />
 
-img {
-	position: absolute;
-	top: 2%;
-	right: 2%;
-	width: 21%;
-}
-</style>
+<meta property="og:title" content="Error - Portal Tipo" />
+<meta property="og:description" content="Página de error" />
+<meta property="og:image" content="" />
 
 </head>
 <body>
-	<img src="_img/LogoAgesic.png" alt="Logo AGESIC"></img>
-	<div class="error" th:text="${error}">Mensaje de error</div>
+	<a class="SkipLink" href="#contenido">Ir al contenido</a>
+	<a class="SkipLink" href="#menu">Ir al menú de navegación</a>
+	<header class="Container">
+		<div class="Header">
+			<div class="u-left">
+				<img src="./img/uruguay-gub-uy.png" class="u-left" /> <span
+					class="u-left u-ml1">Plataforma de e-firma</span>
+			</div>
+			<img class="u-right u-ml1" src="./img/logo-uruguay-digital.png" /> <img
+				class="u-right" src="./img/logo-presidencia.png" />
+		</div>
+	</header>
+
+	<div class="Container">
+		<div class="Grid">
+			<div class="Grid-item">
+				<div class="dialog-box dialog-error">
+					<div class="dialog-icon">
+						<span class="icn icn-circle-error-lg"></span>
+					</div>
+					<div class="dialog-data">
+						<span class="dialog-title">Error</span>
+						<p th:text="${error}">Error interno de la aplicación</p>
+					</div>
+				</div>
+				<div id="footer" class="row">
+					<!-- <a href="" class="u-left">Contacto</a>-->
+					<img class="u-right" src="./img/logo-agesic.png" />
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

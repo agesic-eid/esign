@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Security;
+import java.security.cert.X509Certificate;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -37,9 +39,6 @@ public class ResponseDSSController {
 	 */
 	@Value("${dss.signed.document.path}")
 	private String signedDocumentPath;
-
-	@Value("${dss.signed.document.name}")
-	private String signedDocumentName;
 
 	/*
 	 * DSS TrustStore configuration parameters
@@ -82,10 +81,9 @@ public class ResponseDSSController {
 		if (result instanceof DSSResultSuccess) {
 			byte[] documento = ((DSSResultSuccess) result).getDocumentData();
 			// Convertir arreglo de bytes en archivo
-			FileOutputStream salida = new FileOutputStream(signedDocumentPath + signedDocumentName);
+			FileOutputStream salida = new FileOutputStream(signedDocumentPath + RequestDSSController.uploadName);
 			salida.write(documento);
 			salida.close();
-
 		}
 
 		log.info(sessionId + " RECIBIO EL ARCHIVO DEL DSS");
@@ -105,7 +103,7 @@ public class ResponseDSSController {
 		ServletContext context = request.getServletContext();
 
 		// construct the complete absolute path of the file
-		String fullPath = signedDocumentPath + signedDocumentName;
+		String fullPath = signedDocumentPath + RequestDSSController.uploadName;
 		File downloadFile = new File(fullPath);
 		FileInputStream inputStream = new FileInputStream(downloadFile);
 
@@ -140,6 +138,9 @@ public class ResponseDSSController {
 		outStream.close();
 
 		log.info(sessionId + " DESCARGO EL ARCHIVO");
+
+		TimeSingleton.getInstance().setFirstTime();
+
 		TimeSingleton.getInstance().setSecondTime();
 		if (TimeSingleton.getInstance().getCurrentTime()[0] != null) {
 

@@ -7,6 +7,7 @@ import java.security.Security;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -61,7 +62,12 @@ public class RequestDSSController {
 	@Value("${dss.response.url}")
 	private String dssResponseURL;
 
+	@Value("${dss.target.url}")
+	private String dssTargetURL;
+
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+	public static String uploadName = "";
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public String handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request, Model model) {
@@ -92,6 +98,14 @@ public class RequestDSSController {
 				log.info(sessionId + " SUBIO EL ARCHIVO CORRECTAMENTE");
 
 				byte[] documento = file.getBytes();
+				uploadName = "";
+				String originalName = file.getOriginalFilename();
+				String[] splitName = originalName.split(Pattern.quote("."));
+
+				for (int i = 0; i < splitName.length - 1; i++) {
+					uploadName += splitName[i];
+				}
+				uploadName += "_firmado.pdf";
 
 				Security.addProvider(new BouncyCastleProvider());
 				InputStream ks = new FileInputStream(keyStoreRoute);
@@ -116,8 +130,6 @@ public class RequestDSSController {
 				double random = secureRandom.nextDouble();
 				requestId = "" + random;
 
-				String targetURL = "https://test-eid.portal.gub.uy/dss/dss/post";
-
 				Map<String, byte[]> signedAttributes = new HashMap<String, byte[]>(); // Atributos
 
 				String signatureForm = "urn:oasis:names:tc:dss:1.0:profiles:AdES:forms:BES";
@@ -130,7 +142,7 @@ public class RequestDSSController {
 						.escapeHtml4(Base64.encodeBase64String(requestData.getBytes("UTF-8")));
 
 				model.addAttribute("requestData", newRequestData);
-				model.addAttribute("targetURL", targetURL);
+				model.addAttribute("targetURL", dssTargetURL);
 
 				log.info(sessionId + " ENVIO REQUEST AL DSS");
 
