@@ -21,3 +21,4 @@ nbdist/
 .nb-gradle/
 mvnw
 mvnw.cmd
+/target/
