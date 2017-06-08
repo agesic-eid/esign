@@ -24,38 +24,44 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>environment.type</name>
-                    <value>dev</value>
-                </property>
-            </activation>
-            <properties>
-                <repository.path>/Users/rodrigo/Documents/workspace-sts-3.8.3.RELEASE/esign</repository.path>
-            </properties>
-        </profile>
-        <profile>
-            <id>test</id>
-            <activation>
-                <property>
-                    <name>environment.type</name>
-                    <value>test</value>
-                </property>
-            </activation>
-            <properties>
-                <repository.path>/var/lib/jenkins/workspace/firma-develop</repository.path>
-            </properties>
-        </profile>
-</profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>environment.type</name>
+					<value>dev</value>
+				</property>
+			</activation>
+			<properties>
+				<local.repository.path>/Users/rodrigo/Documents/workspace-sts-3.8.3.RELEASE/esign</local.repository.path>
+				<deploy.url>http://localhost:8080/manager/text</deploy.url>
+				<deploy.server.name>TomcatServer-Dev</deploy.server.name>
+				<app.path>/firma-1.0</app.path>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<activation>
+				<property>
+					<name>environment.type</name>
+					<value>test</value>
+				</property>
+			</activation>
+			<properties>
+				<local.repository.path>/var/lib/jenkins/workspace/firma-develop</local.repository.path>
+				<deploy.url>http://10.255.0.128:8080/manager/text</deploy.url>
+				<deploy.server.name>TomcatServer-Test</deploy.server.name>
+				<app.path>/firma-1.0</app.path>
+			</properties>
+		</profile>
+	</profiles>
 	<repositories>
 		<!--other repositories if any -->
 		<repository>
 			<id>project.local</id>
 			<name>project</name>
-			<url>file://${repository.path}/repo/</url>
+			<url>file://${local.repository.path}/repo/</url>
 		</repository>
 	</repositories>
 
@@ -114,10 +120,9 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<url>http://localhost:8080/manager/text</url>
-					<!-- <url>http://10.255.0.128:8080/manager/text</url> -->
-					<server>TomcatServer-Dev</server>
-					<path>/firma-1.0</path>
+					<url>${deploy.url}</url>
+					<server>${deploy.server.name}</server>
+					<path>${deploy.path}</path>
 				</configuration>
 			</plugin>
 		</plugins>
