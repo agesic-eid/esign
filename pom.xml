@@ -38,12 +38,11 @@
             </properties>
         </profile>
         <profile>
-            <id>dev</id>
+            <id>test</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
                 <property>
                     <name>environment.type</name>
-                    <value>dev</value>
+                    <value>test</value>
                 </property>
             </activation>
             <properties>
