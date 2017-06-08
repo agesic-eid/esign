@@ -23,13 +23,40 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
-
+	<profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>environment.type</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <properties>
+                <repository.path>/Users/rodrigo/Documents/workspace-sts-3.8.3.RELEASE/esign</repository.path>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>environment.type</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <properties>
+                <repository.path>/var/lib/jenkins/workspace/firma-develop</repository.path>
+            </properties>
+        </profile>
+</profiles>
 	<repositories>
 		<!--other repositories if any -->
 		<repository>
 			<id>project.local</id>
 			<name>project</name>
-			<url>file:///Users/rodrigo/Documents/workspace-sts-3.8.3.RELEASE/esign/repo/</url>
+			<url>file://${repository.path}/repo/</url>
 		</repository>
 	</repositories>
 
