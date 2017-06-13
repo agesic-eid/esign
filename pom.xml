@@ -34,6 +34,7 @@
 				</property>
 			</activation>
 			<properties>
+				<activatedProperties>dev</activatedProperties>
 				<local.repository.path>/Users/rodrigo/Documents/workspace-sts-3.8.3.RELEASE/esign</local.repository.path>
 				<deploy.url>http://localhost:8080/manager/text</deploy.url>
 				<deploy.server.name>TomcatServer-Dev</deploy.server.name>
@@ -49,6 +50,7 @@
 				</property>
 			</activation>
 			<properties>
+				<activatedProperties>test</activatedProperties>
 				<local.repository.path>/var/lib/jenkins/workspace/firma-develop</local.repository.path>
 				<deploy.url>http://10.255.0.128:8080/manager/text</deploy.url>
 				<deploy.server.name>TomcatServer-Test</deploy.server.name>
@@ -122,7 +124,7 @@
 				<configuration>
 					<url>${deploy.url}</url>
 					<server>${deploy.server.name}</server>
-					<path>${deploy.path}</path>
+					<path>${app.path}</path>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -19,7 +19,6 @@ import org.apache.tika.Tika;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +31,6 @@ import com.gemalto.ics.rnd.egov.dss.sdk.create.key.JCAKeyStoreSignatureKeyServic
 import com.gemalto.ics.rnd.egov.dss.sdk.create.model.pades.VisibleSignature;
 import com.gemalto.ics.rnd.egov.dss.sdk.create.signature.XmlDSigRequestSigner;
 
-import groovy.lang.Grab;
-
-@Grab("org.webjars:jquery:2.0.3-1")
-@PropertySource("classpath:/config.properties")
 @Controller
 public class RequestDSSController {
 
