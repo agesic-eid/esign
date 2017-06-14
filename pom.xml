@@ -57,6 +57,11 @@
 				<app.path>/firma-1.0</app.path>
 			</properties>
 		</profile>
+		<!--<profile> <id>prod</id> <activation> <property> <name>environment.type</name> 
+			<value>prod</value> </property> </activation> <properties> <activatedProperties>test</activatedProperties> 
+			<local.repository.path>/var/lib/jenkins/workspace/firma-develop</local.repository.path> 
+			<deploy.url>http://10.255.0.118:8080/manager/text</deploy.url> <deploy.server.name>TomcatServer-Prod</deploy.server.name> 
+			<app.path>/firma-1.0</app.path> </properties> </profile> -->
 	</profiles>
 	<repositories>
 		<!--other repositories if any -->
