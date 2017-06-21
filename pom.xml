@@ -66,7 +66,7 @@
 				</property>
 			</activation>
 			<properties>
-				<activatedProperties>test</activatedProperties>
+				<activatedProperties>prod</activatedProperties>
 				<local.repository.path>/var/lib/jenkins/workspace/firma_releases_promote-to-staging</local.repository.path>
 				<deploy.url>http://10.255.0.118:8080/manager/text</deploy.url>
 				<deploy.server.name>TomcatServer-Prod</deploy.server.name>
