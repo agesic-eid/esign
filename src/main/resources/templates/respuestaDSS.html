@@ -50,7 +50,8 @@
 						<p>El documento firmado está disponible para su descarga:</p>
 						<!-- <a href="#">Volver a descargar</a> -->
 						<form action="download" method="get" name="form">
-							<input type="submit" value="Volver a descargar" />
+							<input type="hidden" name="requestId" th:value="${requestId}"/>
+							<input type="submit" value="Volver a descargar"/>
 						</form>
 					</div>
 				</div>

@@ -2,14 +2,15 @@ package uy.com.agesic.firma;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,8 @@ import com.gemalto.ics.rnd.egov.dss.sdk.create.api.RequestBuilderImpl;
 import com.gemalto.ics.rnd.egov.dss.sdk.create.key.JCAKeyStoreSignatureKeyService;
 import com.gemalto.ics.rnd.egov.dss.sdk.create.model.pades.VisibleSignature;
 import com.gemalto.ics.rnd.egov.dss.sdk.create.signature.XmlDSigRequestSigner;
+
+import uy.com.agesic.firma.datatype.UploadedFile;
 
 @Controller
 public class RequestDSSController {
@@ -62,12 +65,12 @@ public class RequestDSSController {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	public static String uploadName = "";
-
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public String handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request, Model model) {
 
 		String sessionId = request.getSession().getId();
+		
+		HttpSession session = request.getSession();
 
 		TimeSingleton.getInstance().setFirstTime();
 
@@ -93,7 +96,7 @@ public class RequestDSSController {
 				log.info(sessionId + " SUBIO EL ARCHIVO CORRECTAMENTE");
 
 				byte[] documento = file.getBytes();
-				uploadName = "";
+				String uploadName = "";
 				String originalName = file.getOriginalFilename();
 				String[] splitName = originalName.split(Pattern.quote("."));
 
@@ -121,9 +124,11 @@ public class RequestDSSController {
 				String requestId = "";
 
 				/* Generación de numero aleatorio para el request */
-				SecureRandom secureRandom = new SecureRandom();
-				double random = secureRandom.nextDouble();
-				requestId = "" + random;
+				requestId = UUID.randomUUID().toString();
+				
+				//Seteo en la web session
+				UploadedFile uploadedFile = new UploadedFile(uploadName);
+				session.setAttribute(requestId,uploadedFile);
 
 				Map<String, byte[]> signedAttributes = new HashMap<String, byte[]>(); // Atributos
 

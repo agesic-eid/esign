@@ -11,6 +11,7 @@ import java.security.Security;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +30,8 @@ import com.gemalto.ics.rnd.egov.dss.sdk.verify.DSSResultSuccess;
 import com.gemalto.ics.rnd.egov.dss.sdk.verify.api.DefaultResponseParserFactory;
 import com.gemalto.ics.rnd.egov.dss.sdk.verify.api.ResponseParser;
 import com.gemalto.ics.rnd.egov.dss.sdk.verify.signature.JCAKeyStoreTrustStore;
+
+import uy.com.agesic.firma.datatype.UploadedFile;
 
 @Controller
 public class ResponseDSSController {
@@ -59,9 +63,11 @@ public class ResponseDSSController {
 	 */
 	@RequestMapping(value = "/respuestaDSS", method = RequestMethod.POST)
 	public String response(@RequestParam("SignResponse") String[] signResponse, HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response, Model model) throws IOException {
 
 		String sessionId = request.getSession().getId();
+		
+		HttpSession session = request.getSession();
 
 		Security.addProvider(new BouncyCastleProvider());
 		InputStream ts = new FileInputStream(trustStoreRoute);
@@ -75,16 +81,22 @@ public class ResponseDSSController {
 		String responseDocument = new String(Base64.decodeBase64(signResponseBase64));
 
 		DSSResult result = responseParser.parseAndGetResult(responseDocument);
+		
+		String requestId = result.getRequestId();
+		
+		UploadedFile uploadedFile = (UploadedFile) session.getAttribute(requestId);
 
 		if (result instanceof DSSResultSuccess) {
 			byte[] documento = ((DSSResultSuccess) result).getDocumentData();
 			// Convertir arreglo de bytes en archivo
-			FileOutputStream salida = new FileOutputStream(signedDocumentPath + RequestDSSController.uploadName);
+			FileOutputStream salida = new FileOutputStream(signedDocumentPath + uploadedFile.getFileName());
 			salida.write(documento);
 			salida.close();
 		}
 
 		log.info(sessionId + " RECIBIO EL ARCHIVO DEL DSS");
+		
+		model.addAttribute("requestId",requestId);
 
 		return "respuestaDSS";
 	}
@@ -93,18 +105,20 @@ public class ResponseDSSController {
 	 * Method for handling file download request from client
 	 */
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
-	public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void download(@RequestParam("requestId") String requestId, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		String sessionId = request.getSession().getId();
-
-		// get absolute path of the application
-		ServletContext context = request.getServletContext();
+		
+		UploadedFile uploadedFile = (UploadedFile) request.getSession().getAttribute(requestId);
 
 		// construct the complete absolute path of the file
-		String fullPath = signedDocumentPath + RequestDSSController.uploadName;
+		String fullPath = signedDocumentPath + uploadedFile.getFileName();
 		File downloadFile = new File(fullPath);
 		FileInputStream inputStream = new FileInputStream(downloadFile);
 
+		// get absolute path of the application
+		ServletContext context = request.getServletContext();
+		
 		// get MIME type of the file
 		String mimeType = context.getMimeType(fullPath);
 		if (mimeType == null) {
@@ -118,7 +132,7 @@ public class ResponseDSSController {
 
 		// set headers for the response
 		String headerKey = "Content-Disposition";
-		String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+		String headerValue = String.format("attachment; filename=\"%s\"", uploadedFile.getOriginalFileName());
 		response.setHeader(headerKey, headerValue);
 
 		// get output stream of the response
@@ -145,8 +159,8 @@ public class ResponseDSSController {
 			Long timeResult = (TimeSingleton.getInstance().getCurrentTime()[1]
 					- TimeSingleton.getInstance().getCurrentTime()[0]) / 1000;
 			log.info(sessionId + " TARDO " + timeResult + "s EN FIRMAR PDF");
-		}
-
+		}	
+			
 	}
 
 }

@@ -5,21 +5,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=edge" />
 
-<!-- Accordion -->
-<link rel="stylesheet" href="./css/jquery-ui.css"/>
-<script src="./js/jquery-1.12.4.js"></script>
-<script src="./js/jquery-ui.js"></script>
-<script>
-$( function() {
-  $( "#accordion" ).accordion({
-    collapsible: true,
-    heightStyle: "content",
-    active: false
-  });
-} );
-</script>
-
-<title>Error - Plataforma e-Firma</title>
+<title>valido - Plataforma e-Firma</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -56,6 +42,8 @@ a.buttonPrevious:hover {
 }
 </style>
 
+
+
 <!-- meta info -->
 <meta name="theme-color" content="#005cb9" />
 <meta name="description" content="" />
@@ -83,30 +71,14 @@ a.buttonPrevious:hover {
 		<div class="Grid">
 			<div class="Grid-item">
 				<div id="contentActionBarSubmit">
-					<a href="./" class="buttonPrevious" style="display: block;">Volver</a>
+					<a href="./" class="buttonPrevious" style="display: block;"> Volver</a>
 				</div>
-				<div class="dialog-box dialog-error" >
+				<div class="dialog-box dialog-error">
 					<div class="dialog-icon">
-						<span class="icn icn-circle-error-lg"></span>
+						<span class="icn icn-circle-success-lg"></span>
 					</div>
-					<div class="dialog-data" style="width:inherit">
-						<span class="dialog-title">Error</span>
-						<p th:text="${error}">Error interno de la aplicación</p>
-						<!-- accordion mostrando los errores -->
-						<div id="accordion">
-							<tr th:each="errordoc : ${erroresdoc}">
-        							<h3 th:text="${errordoc[0] + ' ' + '&#9989;'}" th:if="${errordoc[1] == null}">1</h3>
-        							<h3 th:text="${errordoc[0]+ ' ' + '&#10060;'}" th:if="${errordoc[1] != null}">1</h3>
-        							<div>
-        								<p th:if="${errordoc[1] != null and errordoc[1] == '-1'}">La firma no es válida</p>
-        								
-        								<tr th:each="check,iterator : ${checks}">
-        									<p th:text="${check + ' ' + '&#9989;'}" th:if="${errordoc[1] == null or iterator.index.toString() &lt; errordoc[1]}">1</p>
-	        								<p th:text="${check + ' ' + '&#10060;'}" th:if="${errordoc[1] != null and iterator.index.toString() == errordoc[1] }">1</p>
-        								</tr>
-        							</div>
-    						</tr>
-						</div>
+					<div class="dialog-data">
+						<span class="dialog-title">Documento Valido</span>
 					</div>
 				</div>
 				<div id="footer" class="row">

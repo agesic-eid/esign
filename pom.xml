@@ -35,7 +35,7 @@
 			</activation>
 			<properties>
 				<activatedProperties>dev</activatedProperties>
-				<local.repository.path>/Users/rodrigo/Documents/workspace-sts-3.8.3.RELEASE/esign</local.repository.path>
+				<local.repository.path>C:\esign-master</local.repository.path>
 				<deploy.url>http://localhost:8080/manager/text</deploy.url>
 				<deploy.server.name>TomcatServer-Dev</deploy.server.name>
 				<app.path>/firma-1.0</app.path>
@@ -124,6 +124,13 @@
 			<artifactId>tika-core</artifactId>
 			<version>1.14</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
+		<dependency>
+    		<groupId>com.itextpdf</groupId>
+    		<artifactId>itextpdf</artifactId>
+    		<version>5.3.2</version>
+		</dependency>
+		
 
 	</dependencies>
 
