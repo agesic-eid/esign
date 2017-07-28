@@ -84,12 +84,13 @@ public class ResponseDSSController {
 		
 		String requestId = result.getRequestId();
 		
-		UploadedFile uploadedFile = (UploadedFile) session.getAttribute(requestId);
+		//UploadedFile uploadedFile = (UploadedFile) session.getAttribute(requestId);
 
 		if (result instanceof DSSResultSuccess) {
 			byte[] documento = ((DSSResultSuccess) result).getDocumentData();
 			// Convertir arreglo de bytes en archivo
-			FileOutputStream salida = new FileOutputStream(signedDocumentPath + uploadedFile.getFileName());
+			//FileOutputStream salida = new FileOutputStream(signedDocumentPath + uploadedFile.getFileName());
+			FileOutputStream salida = new FileOutputStream(signedDocumentPath + requestId + ".pdf");
 			salida.write(documento);
 			salida.close();
 		}
@@ -112,7 +113,8 @@ public class ResponseDSSController {
 		UploadedFile uploadedFile = (UploadedFile) request.getSession().getAttribute(requestId);
 
 		// construct the complete absolute path of the file
-		String fullPath = signedDocumentPath + uploadedFile.getFileName();
+		//String fullPath = signedDocumentPath + uploadedFile.getFileName();
+		String fullPath = signedDocumentPath + requestId + ".pdf";
 		File downloadFile = new File(fullPath);
 		FileInputStream inputStream = new FileInputStream(downloadFile);
 
@@ -132,7 +134,8 @@ public class ResponseDSSController {
 
 		// set headers for the response
 		String headerKey = "Content-Disposition";
-		String headerValue = String.format("attachment; filename=\"%s\"", uploadedFile.getOriginalFileName());
+		//String headerValue = String.format("attachment; filename=\"%s\"", uploadedFile.getOriginalFileName());
+		String headerValue = String.format("attachment; filename=\"%s\"", requestId + ".pdf");
 		response.setHeader(headerKey, headerValue);
 
 		// get output stream of the response

@@ -70,7 +70,7 @@ public class RequestDSSController {
 
 		String sessionId = request.getSession().getId();
 		
-		HttpSession session = request.getSession();
+		//HttpSession session = request.getSession();
 
 		TimeSingleton.getInstance().setFirstTime();
 
@@ -127,8 +127,11 @@ public class RequestDSSController {
 				requestId = UUID.randomUUID().toString();
 				
 				//Seteo en la web session
-				UploadedFile uploadedFile = new UploadedFile(uploadName);
-				session.setAttribute(requestId,uploadedFile);
+				//Cambio de la implementación para que funcione atrás del RP - 2017/07/28
+				//UploadedFile uploadedFile = new UploadedFile(uploadName);
+				
+				//UploadedFile uploadedFile = new UploadedFile(requestId);
+				//session.setAttribute(requestId,uploadedFile);
 
 				Map<String, byte[]> signedAttributes = new HashMap<String, byte[]>(); // Atributos
 
