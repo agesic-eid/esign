@@ -24,7 +24,7 @@ public class DefaultVerifierKeyStoreStrategy{
     private String certificateAuthorityTrustStorePassword;
     private String certificateAuthorityTrustStoreAlias;
     private Date date;
-
+    
     public DefaultVerifierKeyStoreStrategy(String certificateAuthorityPath, String certificateAuthorityRevocationsPath,
             String signerCertificateFromCAPath, boolean checkNonRepudiation, Date date) {
         this.certificateAuthorityPath = certificateAuthorityPath;
@@ -167,7 +167,7 @@ public class DefaultVerifierKeyStoreStrategy{
      * @return true if the certificate is revoked.
      */
     protected boolean isRevoke(Certificate caCert, X509Certificate certificate) {
-        try {
+    	try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             FileInputStream fis = new FileInputStream(certificateAuthorityRevocationsPath);
             X509CRL crl = (X509CRL) cf.generateCRL(fis);

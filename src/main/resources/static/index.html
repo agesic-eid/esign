@@ -7,9 +7,11 @@
 <script src="./js/jquery-1.12.4.js"></script>
 <script src="./js/jquery-ui.js"></script>
 <script>
-$( function() {
-  $( "#datepicker" ).datepicker({ dateFormat: "dd/mm/yy"}).datepicker("setDate", "0");
-} );
+	$(function() {
+		$("#datepicker").datepicker({
+			dateFormat : "dd/mm/yy"
+		}).datepicker("setDate", "0");
+	});
 </script>
 
 <meta charset="utf-8">
@@ -65,8 +67,9 @@ $( function() {
 					</div>
 				</div>
 				<div class="Hero-description">A través de esta plataforma
-					podrá firmar documentos (PDF) de forma electrónica utlizando su
-					Cédula de Identidad electrónica y un lector de tarjetas.</div>
+					podrás firmar y validar documentos (PDF) de forma electrónica.
+					Firmá utlizando tu Cédula de Identidad electrónica y un lector de
+					tarjetas.</div>
 				<!-- <a href="#" class="Button Button--secondary Hero-button"> ¿Donde
 					conseguir lector de tarjetas? </a>-->
 			</div>
@@ -91,13 +94,13 @@ $( function() {
 						</form>
 					</div>
 				</div>
-				<div id="footer" class="row" style="padding-bottom:0px;padding-top:0px">
-				</div>
+				<div id="footer" class="row"
+					style="padding-bottom: 0px; padding-top: 0px"></div>
 			</div>
 		</div>
 	</div>
 	</main>
-	
+
 	<main class="u-main" id="contenidovalidar">
 	<div class="Container">
 		<div class="Grid">
@@ -105,11 +108,14 @@ $( function() {
 				<div class="Box">
 					<div class="Box-header">Selección de documento a validar</div>
 					<div class="Box-body">
-						<form action="validate" method="POST" enctype="multipart/form-data">
+						<form action="validate" method="POST"
+							enctype="multipart/form-data">
 							<ul class="form-group-list">
 								<li><label>Documento a validar:</label> <input type="file"
 									accept="application/pdf" name="file"></li>
-								<li><label>Fecha a validar:</label> <input type="text" id="datepicker" name="date" style="width:105px;min-width:105px" ></li>
+								<li><label>Fecha a validar:</label> <input type="text"
+									id="datepicker" name="date"
+									style="width: 105px; min-width: 105px"></li>
 								<li><label></label>
 									<button class="btn-lg btn-primario" type="submit">
 										Validar documento</button></li>

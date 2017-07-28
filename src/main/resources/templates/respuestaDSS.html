@@ -9,6 +9,35 @@
 <link rel="stylesheet" href="./css/style.css" />
 <link rel="stylesheet" href="./css/formulario-tipo.css" />
 
+<style>
+a.buttonPrevious {
+	display: block;
+	margin-bottom: 10px;
+	width: 105px;
+	font: 13px Verdana, Arial, Helvetica, sans-serif;
+	cursor: pointer;
+	padding: 5px 5px;
+	color: #fff;
+	background: #607a92;
+	border: 1px solid #607a92;
+	border-radius: 3px;
+	box-shadow: 0 2px 0 #384450;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: 1px 1px 0px #02547F;
+	transition: background 0.5s ease 0s;
+	-webkit-transition: background 0.5s ease 0s, border 0.5s ease 0s;
+	-moz-transition: background 0.5s ease 0s, border 0.5s ease 0s;
+	-o-transition: background 0.5s ease 0s, border 0.5s ease 0s;
+}
+
+a.buttonPrevious:hover {
+	background-color: #556879;
+	border: 1px solid #556879;
+}
+</style>
+
 <script type="text/javascript">
 	function submit() {
 		document.form.submit();
@@ -41,6 +70,9 @@
 	<div class="Container">
 		<div class="Grid">
 			<div class="Grid-item">
+				<div id="contentActionBarSubmit">
+					<a href="./" class="buttonPrevious" style="display: block;">Volver</a>
+				</div>
 				<div class="dialog-box dialog-success">
 					<div class="dialog-icon">
 						<span class="icn icn-circle-success-lg"></span>
@@ -50,8 +82,8 @@
 						<p>El documento firmado está disponible para su descarga:</p>
 						<!-- <a href="#">Volver a descargar</a> -->
 						<form action="download" method="get" name="form">
-							<input type="hidden" name="requestId" th:value="${requestId}"/>
-							<input type="submit" value="Volver a descargar"/>
+							<input type="hidden" name="requestId" th:value="${requestId}" />
+							<input type="submit" value="Volver a descargar" />
 						</form>
 					</div>
 				</div>

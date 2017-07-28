@@ -62,7 +62,9 @@ public class ValidateController {
 							
 							//verifico que no hayan errores
 							boolean hayerror = false;
+							
 							for (int i=0; i < docvalido.length; i++){
+								
 								if (docvalido[i][1] != null){
 									hayerror = true;
 								}
@@ -113,18 +115,18 @@ public class ValidateController {
 					}
 				}else {
 					log.info("INTENTO SUBIR ARCHIVO DE OTRO TIPO");
-					model.addAttribute("error", "Debes seleccionar un archivo PDF para firmar");
+					model.addAttribute("error", "Debes seleccionar un archivo PDF para validar");
 					return "error";
 				}
 			} catch (IOException e1) {
 				log.info("INTENTO SUBIR ARCHIVO VACIO");
-				model.addAttribute("error", "Debes seleccionar un archivo PDF para firmar");
+				model.addAttribute("error", "Debes seleccionar un archivo PDF para validar");
 				return "error";
 			}
 			
 		}else {
 			log.info("INTENTO SUBIR ARCHIVO VACIO");
-			model.addAttribute("error", "Debes seleccionar un archivo PDF para firmar");
+			model.addAttribute("error", "Debes seleccionar un archivo PDF para validar");
 			return "error";
 		}
 		
