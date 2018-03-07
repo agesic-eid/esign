@@ -30,9 +30,21 @@ public class ValidateController {
 
 	@Value("${validate.certificateAuthority}")
 	private String certificateAuthority;
+	
+	@Value("${validate.certificateAuthority1}")
+	private String certificateAuthority1;
+	
+	@Value("${validate.certificateAuthority2}")
+	private String certificateAuthority2;
 
 	@Value("${validate.certificateAuthorityRevocations}")
 	private String certificateAuthorityRevocations;
+	
+	@Value("${validate.certificateAuthorityRevocations1}")
+	private String certificateAuthorityRevocations1;
+	
+	@Value("${validate.certificateAuthorityRevocations2}")
+	private String certificateAuthorityRevocations2;
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -54,60 +66,18 @@ public class ValidateController {
 					try {
 						Date dateverifi = new SimpleDateFormat("dd/MM/yyyy").parse(date);
 						
-						ValidateSignPDF validate = new ValidateSignPDF();
 						
-						//Valido el documento
-						try{
-							String[][] docvalido = validate.verifyDigitalSignature(documento, certificateAuthority, certificateAuthorityRevocations, true, dateverifi);
-							
-							//verifico que no hayan errores
-							boolean hayerror = false;
-							
-							for (int i=0; i < docvalido.length; i++){
-								
-								if (docvalido[i][1] != null){
-									hayerror = true;
-								}
-							}
-							
-							if(!hayerror){
-								log.info("EL PDF ES VALIDO");
-								return "valido";
-							}else{
-								log.info("ERROR EN ALGUN CERTIFICADO");
-								
-								//creo arreglo de chequeos
-								String[] checks = new String[6];
-								checks[0] = "Certificado definido";
-								checks[1] = "Certificado firmado por la Autoridad Certificadora";
-								checks[2] = "Certificado embebido en el documento corresponde con el dado por la Autoridad Certificadora";
-								checks[3] = "Certificado emitido para firmar";
-								checks[4] = "Certificado aprobado (no revocado)";
-								checks[5] = "Período del certificado";
-								
-								//parseo los nombres de los certificados
-								String pattern = "CN=[^,]+";
-								// Creo al Pattern object
-								Pattern r = Pattern.compile(pattern);
-								for (int i=0; i < docvalido.length; i++){
-									String nombre = docvalido[i][0];
-									// creo el matcher object.
-									Matcher m = r.matcher(nombre);
-									if (m.find( )) {
-										docvalido[i][0] = m.group(0).split("=")[1];
-									}
-								}
-								
-								model.addAttribute("checks",checks);
-								model.addAttribute("erroresdoc",docvalido);
-								return "error";
-							}
-						//error generico	
-						}catch (Exception e){
-							log.info("ERROR GENERICO DEL VERIFYDIGITALSIGNATURE");
-							model.addAttribute("error", e.getMessage());
+						
+						String mica   = validarIndividual(documento, certificateAuthority , certificateAuthorityRevocations ,dateverifi, model);
+						String correo = validarIndividual(documento, certificateAuthority1, certificateAuthorityRevocations1,dateverifi, model);
+						String abitab = validarIndividual(documento, certificateAuthority2, certificateAuthorityRevocations2,dateverifi, model);
+						
+						if (mica == "valido" || correo == "valido" || abitab == "valido") {
+							return "valido";
+						}else {
 							return "error";
 						}
+						
 					} catch (ParseException e1) {
 						log.info("FECHA INVALIDA");
 						model.addAttribute("error", "Debes ingresar una fecha valida");
@@ -130,5 +100,62 @@ public class ValidateController {
 			return "error";
 		}
 		
+	}
+
+	public String validarIndividual(byte[] documento, String certificateAuthority, 
+			String certificateAuthorityRevocations,Date dateverifi, Model model) {
+		//Valido el documento
+		try{
+			ValidateSignPDF validate = new ValidateSignPDF();
+			String[][] docvalido = validate.verifyDigitalSignature(documento, certificateAuthority, certificateAuthorityRevocations, true, dateverifi);
+			
+			//verifico que no hayan errores
+			boolean hayerror = false;
+			
+			for (int i=0; i < docvalido.length; i++){
+				
+				if (docvalido[i][1] != null){
+					hayerror = true;
+				}
+			}
+			
+			if(!hayerror){
+				log.info("EL PDF ES VALIDO");
+				return "valido";
+			}else{
+				log.info("ERROR EN ALGUN CERTIFICADO");
+				
+				//creo arreglo de chequeos
+				String[] checks = new String[6];
+				checks[0] = "Certificado definido";
+				checks[1] = "Certificado firmado por la Autoridad Certificadora";
+				checks[2] = "Certificado embebido en el documento corresponde con el dado por la Autoridad Certificadora";
+				checks[3] = "Certificado emitido para firmar";
+				checks[4] = "Certificado aprobado (no revocado)";
+				checks[5] = "Período del certificado";
+				
+				//parseo los nombres de los certificados
+				String pattern = "CN=[^,]+";
+				// Creo al Pattern object
+				Pattern r = Pattern.compile(pattern);
+				for (int i=0; i < docvalido.length; i++){
+					String nombre = docvalido[i][0];
+					// creo el matcher object.
+					Matcher m = r.matcher(nombre);
+					if (m.find( )) {
+						docvalido[i][0] = m.group(0).split("=")[1];
+					}
+				}
+				
+				model.addAttribute("checks",checks);
+				model.addAttribute("erroresdoc",docvalido);
+				return "error";
+			}
+		//error generico	
+		}catch (Exception e){
+			log.info("ERROR GENERICO DEL VERIFYDIGITALSIGNATURE");
+			model.addAttribute("error", e.getMessage());
+			return "error";
+		}
 	}
 }

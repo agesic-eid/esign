@@ -81,11 +81,11 @@
 		<div class="Grid">
 			<div class="Grid-item">
 				<div class="Box">
-					<div class="Box-header">Selección de documento a firmar</div>
+					<div class="Box-header">Seleccioná el documento a firmar</div>
 					<div class="Box-body">
 						<form action="upload" method="POST" enctype="multipart/form-data">
 							<ul class="form-group-list">
-								<li><label>Documento a firmar:</label> <input type="file"
+								<li><label></label> <input type="file"
 									accept="application/pdf" name="file"></li>
 								<li><label></label>
 									<button class="btn-lg btn-primario" type="submit">
@@ -106,19 +106,19 @@
 		<div class="Grid">
 			<div class="Grid-item">
 				<div class="Box">
-					<div class="Box-header">Selección de documento a validar</div>
+					<div class="Box-header">Corroborá si firmaste correctamente el documento</div>
 					<div class="Box-body">
 						<form action="validate" method="POST"
 							enctype="multipart/form-data">
 							<ul class="form-group-list">
-								<li><label>Documento a validar:</label> <input type="file"
+								<li><label></label> <input type="file"
 									accept="application/pdf" name="file"></li>
 								<li><label>Fecha a validar:</label> <input type="text"
 									id="datepicker" name="date"
 									style="width: 105px; min-width: 105px"></li>
 								<li><label></label>
 									<button class="btn-lg btn-primario" type="submit">
-										Validar documento</button></li>
+										Corroborá la firma</button></li>
 							</ul>
 						</form>
 					</div>
