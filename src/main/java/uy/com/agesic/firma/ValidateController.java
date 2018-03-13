@@ -27,25 +27,7 @@ public class ValidateController {
 	/*
 	 * Validate PDF configuration parameters
 	 */
-
-	@Value("${validate.certificateAuthority}")
-	private String certificateAuthority;
 	
-	@Value("${validate.certificateAuthority1}")
-	private String certificateAuthority1;
-	
-	@Value("${validate.certificateAuthority2}")
-	private String certificateAuthority2;
-
-	@Value("${validate.certificateAuthorityRevocations}")
-	private String certificateAuthorityRevocations;
-	
-	@Value("${validate.certificateAuthorityRevocations1}")
-	private String certificateAuthorityRevocations1;
-	
-	@Value("${validate.certificateAuthorityRevocations2}")
-	private String certificateAuthorityRevocations2;
-
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(value = "/validate", method = RequestMethod.POST)
@@ -65,14 +47,9 @@ public class ValidateController {
 					//Verifico que el texto sea una fecha
 					try {
 						Date dateverifi = new SimpleDateFormat("dd/MM/yyyy").parse(date);
-						
-						
-						
-						String mica   = validarIndividual(documento, certificateAuthority , certificateAuthorityRevocations ,dateverifi, model);
-						String correo = validarIndividual(documento, certificateAuthority1, certificateAuthorityRevocations1,dateverifi, model);
-						String abitab = validarIndividual(documento, certificateAuthority2, certificateAuthorityRevocations2,dateverifi, model);
-						
-						if (mica == "valido" || correo == "valido" || abitab == "valido") {
+									
+						String resultado   = validarIndividual(documento, dateverifi, model);
+						if (resultado == "valido" ) {
 							return "valido";
 						}else {
 							return "error";
@@ -102,12 +79,11 @@ public class ValidateController {
 		
 	}
 
-	public String validarIndividual(byte[] documento, String certificateAuthority, 
-			String certificateAuthorityRevocations,Date dateverifi, Model model) {
+	public String validarIndividual(byte[] documento, Date dateverifi, Model model) {
 		//Valido el documento
 		try{
 			ValidateSignPDF validate = new ValidateSignPDF();
-			String[][] docvalido = validate.verifyDigitalSignature(documento, certificateAuthority, certificateAuthorityRevocations, true, dateverifi);
+			String[][] docvalido = validate.verifyDigitalSignature(documento, true, dateverifi);
 			
 			//verifico que no hayan errores
 			boolean hayerror = false;

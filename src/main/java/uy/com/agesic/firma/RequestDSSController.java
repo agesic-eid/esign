@@ -88,8 +88,8 @@ public class RequestDSSController {
 						return "error";
 					}
 				} catch (Exception e) {
-					log.info(sessionId + " NO PUDO SUBIR EL ARCHIVO");
-					model.addAttribute("error", "Error al subir el archivo, intenta nuevamente");
+					log.info(sessionId + " NO PUDO SUBIR EL ARCHIVO - ");
+					model.addAttribute("error", "Error al subir el archivo, intenta nuevamente -");
 					return "error";
 				}
 
