@@ -66,24 +66,15 @@ public class ResponseDSSController {
 			HttpServletResponse response, Model model) throws IOException {
 
 		String sessionId = request.getSession().getId();
-		
 		HttpSession session = request.getSession();
-
 		Security.addProvider(new BouncyCastleProvider());
 		InputStream ts = new FileInputStream(trustStoreRoute);
-
-		JCAKeyStoreTrustStore trustStore = new JCAKeyStoreTrustStore("BC", "PKCS12", ts, trustStoreKey,
-				trustStoreAlias);
-
+		JCAKeyStoreTrustStore trustStore = new JCAKeyStoreTrustStore("BC", "PKCS12", ts, trustStoreKey,trustStoreAlias);
 		ResponseParser responseParser = DefaultResponseParserFactory.getResponseParser(trustStore, null);
-
 		String signResponseBase64 = signResponse[0];
 		String responseDocument = new String(Base64.decodeBase64(signResponseBase64));
-
 		DSSResult result = responseParser.parseAndGetResult(responseDocument);
-		
 		String requestId = result.getRequestId();
-		
 		//UploadedFile uploadedFile = (UploadedFile) session.getAttribute(requestId);
 
 		if (result instanceof DSSResultSuccess) {
@@ -95,7 +86,7 @@ public class ResponseDSSController {
 			salida.close();
 		}
 
-		log.info(sessionId + " RECIBIO EL ARCHIVO DEL DSS");
+		log.info("| Response | "+ sessionId + " Recibió el archivo del DSS");
 		
 		model.addAttribute("requestId",requestId);
 
@@ -151,8 +142,8 @@ public class ResponseDSSController {
 
 		inputStream.close();
 		outStream.close();
-
-		log.info(sessionId + " DESCARGO EL ARCHIVO");
+		
+		log.info("| Response | "+ sessionId + " Descargó el archivo");
 
 		TimeSingleton.getInstance().setFirstTime();
 
@@ -161,7 +152,7 @@ public class ResponseDSSController {
 
 			Long timeResult = (TimeSingleton.getInstance().getCurrentTime()[1]
 					- TimeSingleton.getInstance().getCurrentTime()[0]) / 1000;
-			log.info(sessionId + " TARDO " + timeResult + "s EN FIRMAR PDF");
+			log.info("| Response | "+ sessionId + " tardó " + timeResult + "s en firmar el PDF");
 		}	
 			
 	}

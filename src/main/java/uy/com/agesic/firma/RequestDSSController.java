@@ -74,7 +74,7 @@ public class RequestDSSController {
 
 		TimeSingleton.getInstance().setFirstTime();
 
-		log.info("IDENTIFICADOR DE SESION: " + sessionId);
+		log.info("| Request | Identificador de sesión: " + sessionId);
 
 		if (!file.isEmpty()) {
 			try {
@@ -83,46 +83,42 @@ public class RequestDSSController {
 				Tika tika = new Tika();
 				try {
 					if (!tika.detect(file.getBytes()).equals("application/pdf")) {
-						log.info(sessionId + " NO SUBIO PDF");
+						log.info("| Request | "+ sessionId + " no subió PDF");
 						model.addAttribute("error", "Debes seleccionar un archivo tipo PDF");
 						return "error";
 					}
 				} catch (Exception e) {
-					log.info(sessionId + " NO PUDO SUBIR EL ARCHIVO");
+					log.info("| Request Error | "+ sessionId + " no pudo subir el archivo");
 					model.addAttribute("error", "Error al subir el archivo, intenta nuevamente");
 					return "error";
 				}
 
-				log.info(sessionId + " SUBIO EL ARCHIVO CORRECTAMENTE");
+				log.info("| Request | "+ sessionId + " subió el archivo correctamente");
 
 				byte[] documento = file.getBytes();
 				String uploadName = "";
 				String originalName = file.getOriginalFilename();
 				String[] splitName = originalName.split(Pattern.quote("."));
-
+				
 				for (int i = 0; i < splitName.length - 1; i++) {
 					uploadName += splitName[i];
 				}
 				uploadName += "_firmado.pdf";
-
 				Security.addProvider(new BouncyCastleProvider());
 				InputStream ks = new FileInputStream(keyStoreRoute);
-				JCAKeyStoreSignatureKeyService jcaKeyStoreSignatureKeyService = new JCAKeyStoreSignatureKeyService("BC",
-						"PKCS12", ks, keyStoreKey, keyStoreAlias);
 
+				JCAKeyStoreSignatureKeyService jcaKeyStoreSignatureKeyService = new JCAKeyStoreSignatureKeyService("BC", "PKCS12", ks, keyStoreKey, keyStoreAlias);
 				XmlDSigRequestSigner xmlDSigRS = new XmlDSigRequestSigner();
 				xmlDSigRS.setDigestMethod("http://www.w3.org/2001/04/xmlenc#sha256");
 				xmlDSigRS.setSignatureMethod("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256");
-
-				RequestBuilderImpl requestBuilder = new RequestBuilderImpl(jcaKeyStoreSignatureKeyService, xmlDSigRS,
-						dssServiceName, dssResponseURL);
+				
+				RequestBuilderImpl requestBuilder = new RequestBuilderImpl(jcaKeyStoreSignatureKeyService, xmlDSigRS,dssServiceName, dssResponseURL);
 				requestBuilder.setSignatureMethods(Collections.singletonList("SmartCard"));
-
+				
 				String requestData = "";
 
 				// OASIS DSS request identifier
 				String requestId = "";
-
 				/* Generación de numero aleatorio para el request */
 				requestId = UUID.randomUUID().toString();
 				
@@ -134,30 +130,27 @@ public class RequestDSSController {
 				//session.setAttribute(requestId,uploadedFile);
 
 				Map<String, byte[]> signedAttributes = new HashMap<String, byte[]>(); // Atributos
-
 				String signatureForm = "urn:oasis:names:tc:dss:1.0:profiles:AdES:forms:BES";
 
 				VisibleSignature vSignature = new VisibleSignature();
-				requestData = requestBuilder.buildPAdESBasicSignRequest(requestId, documento, signedAttributes,
-						signatureForm, vSignature);
+				requestData = requestBuilder.buildPAdESBasicSignRequest(requestId, documento, signedAttributes,signatureForm, vSignature);
 
-				String newRequestData = StringEscapeUtils
-						.escapeHtml4(Base64.encodeBase64String(requestData.getBytes("UTF-8")));
+				String newRequestData = StringEscapeUtils.escapeHtml4(Base64.encodeBase64String(requestData.getBytes("UTF-8")));
 
 				model.addAttribute("requestData", newRequestData);
 				model.addAttribute("targetURL", dssTargetURL);
 
-				log.info(sessionId + " ENVIO REQUEST AL DSS");
-
+				log.info("| Request | "+ sessionId + " envió request al DSS");
+				
 				return "sign";
 
 			} catch (Exception e) {
-				log.info(sessionId + " NO PUDO SUBIR EL ARCHIVO");
+				log.info("| Error | " + sessionId + " no se pudo subir el archivo");
 				model.addAttribute("error", "Error al subir el archivo, intenta nuevamente");
 				return "error";
 			}
 		} else {
-			log.info(sessionId + " INTENTO SUBIR ARCHIVO VACIO");
+			log.info("| Error | " + sessionId + " intentó subir un archivo vacío");
 			model.addAttribute("error", "Debes seleccionar un archivo PDF para firmar");
 			return "error";
 		}
