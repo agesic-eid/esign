@@ -222,11 +222,11 @@ td .btn-sm {
 }
 .btn-primario {
     color: #FFF;
-    background-color: #337ab7;
+    background-color: #3155a6;
     box-shadow: 0 2px 0 #1A2F5A;
 }
 .btn-primario:hover {
-    background-color: #296192;
+    background-color: #143a97;
 }
 .btn-secundario {
     color: #FFF;

@@ -2893,7 +2893,7 @@ dd + dt {
 
 /** @define Hero */
 .Hero {
-  background-color: #33236a;
+  background-color: #3155a6;
   color: #fff;
   height: 30em;
   width: 100%;
@@ -2962,7 +2962,7 @@ dd + dt {
 
 .Hero--circle {
   background-image: none;
-  background-color: #33236a;
+  background-color: #3155a6;
 }
 
 @media screen and (max-width: 992px) {
@@ -2973,7 +2973,7 @@ dd + dt {
     font-size: 1.25rem;
   }
 }
-
+ 
 .Hero--circle .Hero-title {
   max-width: 540px;
   position: relative;
@@ -3068,7 +3068,7 @@ dd + dt {
 
 /** @define Header; weak */
 .Header {
-  border-bottom: 3px solid #005492;
+  border-bottom: 3px solid #3155a6;
   margin-bottom: 30px;
   overflow: hidden;
   padding: 20px 15px;

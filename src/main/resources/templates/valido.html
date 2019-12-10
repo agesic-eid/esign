@@ -49,8 +49,8 @@ a.buttonPrevious:hover {
 <meta name="theme-color" content="#005cb9" />
 <meta name="description" content="" />
 
-<meta property="og:title" content="Error - Portal Tipo" />
-<meta property="og:description" content="Página de error" />
+<meta property="og:title" content="Valido - Portal Tipo" />
+<meta property="og:description" content="Página de validacion" />
 <meta property="og:image" content="" />
 
 </head>
@@ -72,15 +72,19 @@ a.buttonPrevious:hover {
 		<div class="Grid">
 			<div class="Grid-item">
 				<div id="contentActionBarSubmit">
-					<a href="./" class="buttonPrevious" style="display: block;">
-						Volver</a>
+					<a href="./" class="buttonPrevious" style="display: block;">Volver</a>
 				</div>
-				<div class="dialog-box dialog-success">
+				<div class="dialog-box dialog-success" >
 					<div class="dialog-icon">
 						<span class="icn icn-circle-success-lg"></span>
 					</div>
-					<div class="dialog-data">
-						<span class="dialog-title">Todas las firmas del documento son válidas</span>
+					<div class="dialog-data" style="width:inherit">
+						<span class="dialog-title" style=" text-align: center;">Todas las firmas del documento son válidas</span>
+						<p></p>
+						<tr th:each="errordoc : ${erroresdoc}">
+							<h3 th:text="${errordoc[0] + ' ' + '&#9989;'}" th:if="${errordoc[1] == null}">1</h3>
+							<h3 th:text="${errordoc[0]+ ' ' + '&#10060;'}" th:if="${errordoc[1] != null}">1</h3>			
+	  					</tr>
 					</div>
 				</div>
 				<div id="footer" class="row">

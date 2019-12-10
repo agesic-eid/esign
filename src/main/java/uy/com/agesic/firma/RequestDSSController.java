@@ -145,6 +145,9 @@ public class RequestDSSController {
 				return "sign";
 
 			} catch (Exception e) {
+                                log.info(e.getLocalizedMessage());
+                                log.info(e.getMessage());
+                                log.info(e.toString());
 				log.info("| Error | " + sessionId + " no se pudo subir el archivo");
 				model.addAttribute("error", "Error al subir el archivo, intenta nuevamente");
 				return "error";

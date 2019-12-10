@@ -116,6 +116,14 @@ public class ValidateController {
 	{ 
 		try
 		{
+			String[] checks = new String[6]; 		//Creo arreglo de chequeos
+			checks[0] = "Certificado definido";
+			checks[1] = "Está firmado por una Autoridad Certificadora reconocida de confianza";
+			checks[2] = "Certificado embebido en el documento corresponde con el dado por la Autoridad Certificadora";
+			checks[3] = "Certificado emitido para firmar";
+			checks[4] = "Certificado aprobado (no revocado)";
+			checks[5] = "Período del certificado";
+			
 			ValidateSignPDF validate = new ValidateSignPDF();
 			String[][] docvalido = validate.verifyDigitalSignature(documento, pathCa, pathCrl, true, dateverifi);	
 			boolean hayerror = false;			//Verifico que no hayan errores
@@ -126,19 +134,23 @@ public class ValidateController {
 			if(!hayerror)
 			{
 				log.info("| validarIndividual | Documento válido");;
+				String pattern = "CN=[^,]+"; 			// Parseo los nombres de los certificados		
+				Pattern r = Pattern.compile(pattern); 	// Creo al Pattern object
+				for (int i=0; i < docvalido.length; i++)
+				{
+					String nombre = docvalido[i][0];
+					Matcher m = r.matcher(nombre); 		// Creo el matcher object.
+					
+					if ( m.find() ) docvalido[i][0] = m.group(0).split("=")[1];
+				}
+				
+				model.addAttribute("checks",checks);
+				model.addAttribute("erroresdoc",docvalido);
 				return "valido";
 			} 
 			else
 			{
 				log.info("| validarIndividual Error | Error en algún certificado");
-				
-				String[] checks = new String[6]; 		//Creo arreglo de chequeos
-				checks[0] = "Certificado definido";
-				checks[1] = "Está firmado por una Autoridad Certificadora reconocida de confianza";
-				checks[2] = "Certificado embebido en el documento corresponde con el dado por la Autoridad Certificadora";
-				checks[3] = "Certificado emitido para firmar";
-				checks[4] = "Certificado aprobado (no revocado)";
-				checks[5] = "Período del certificado";
 							
 				String pattern = "CN=[^,]+"; 			// Parseo los nombres de los certificados		
 				Pattern r = Pattern.compile(pattern); 	// Creo al Pattern object

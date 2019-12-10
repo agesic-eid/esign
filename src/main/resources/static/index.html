@@ -1,45 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="es">
+
 <head>
 
-<!-- Datepicker -->
-<link rel="stylesheet" href="./css/jquery-ui.css">
-<script src="./js/jquery-1.12.4.js"></script>
-<script src="./js/jquery-ui.js"></script>
-<script>
-	$(function() {
-		$("#datepicker").datepicker({
-			dateFormat : "dd/mm/yy"
-		}).datepicker("setDate", "0");
-	});
-</script>
+	<!-- Datepicker -->
+	<link rel="stylesheet" href="./css/jquery-ui.css">
+	<script src="./js/jquery-1.12.4.js"></script>
+	<script src="./js/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$("#datepicker").datepicker({
+				dateFormat: "dd/mm/yy"
+			}).datepicker("setDate", "0");
+		});
+	</script>
 
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
 
-<title>Portada - Plataforma de e-firma</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Portada - Plataforma de e-firma</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- styles -->
-<link rel="shortcut icon" href="./img/favicon.ico">
-<link rel="stylesheet" href="./css/portal-tipo.css">
-<link rel="stylesheet" href="./css/style.css">
-<link rel="stylesheet" href="./css/formulario-tipo.css">
+	<!-- styles -->
+	<link rel="shortcut icon" href="./img/favicon.ico">
+	<link rel="stylesheet" href="./css/portal-tipo.css">
+	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="./css/formulario-tipo.css">
 
-<!-- polyfills -->
-<!--[if lt IE 9]>
+	<!-- polyfills -->
+	<!--[if lt IE 9]>
     <script src="./dist/js/vendor/polyfills.js"></script>
   <![endif]-->
 
-<!-- meta info -->
-<meta name="theme-color" content="#005cb9">
-<meta name="description" content="">
+	<!-- meta info -->
+	<meta name="theme-color" content="#005cb9">
+	<meta name="description" content="">
 
-<meta property="og:title" content="Portada - Portal Tipo">
-<meta property="og:description" content="">
-<meta property="og:image" content="">
+	<meta property="og:title" content="Portada - Portal Tipo">
+	<meta property="og:description" content="">
+	<meta property="og:image" content="">
 </head>
+
 <body>
 	<a class="SkipLink" href="#contenido">Ir al contenido</a>
 	<a class="SkipLink" href="#menu">Ir al menú de navegación</a>
@@ -49,27 +50,26 @@
 	<header class="Container">
 		<div class="Header">
 			<div class="u-left">
-				<img src="./img/uruguay-gub-uy.png" class="u-left" /> <span
-					class="u-left u-ml1">Plataforma de e-firma</span>
+				<img src="./img/logo-gubuy-color2.png" class="u-left" />
+				<span class="u-left u-ml1">Plataforma de firma digital</span>
 			</div>
-			<img class="u-right u-ml1" src="./img/logo-uruguay-digital.png" /> <img
-				class="u-right" src="./img/logo-presidencia.png" />
+			<img class="u-right u-ml1" src="./img/logo-uruguay-digital.png" />
+			<img class="u-right" src="./img/logo-presidencia.png" />
 		</div>
 	</header>
 
 	<div class="Hero Hero--circle Hero--small">
 		<div class="Hero-body">
 			<div class="Container">
-				<div class="Hero-title">Firma electrónica</div>
+				<div class="Hero-title">Firma digital</div>
 				<div class="Hero-image">
 					<div class="Crop Crop--circle">
-						<img src="./img/e-sign.jpg" alt="">
+						<img src="./img/firma-digital.jpg" alt="">
 					</div>
 				</div>
-				<div class="Hero-description">A través de esta plataforma
-					podrás firmar y validar documentos (PDF) de forma electrónica.
-					Firmá utlizando tu Cédula de Identidad electrónica y un lector de
-					tarjetas.</div>
+				<div class="Hero-description">A través de esta plataforma podrás firmar y validar documentos (PDF) digitalmente. Firmá utlizando tu Cédula
+					de Identidad digital y un lector de tarjetas.
+				</div>
 				<!-- <a href="#" class="Button Button--secondary Hero-button"> ¿Donde
 					conseguir lector de tarjetas? </a>-->
 			</div>
@@ -77,63 +77,71 @@
 	</div>
 
 	<main class="u-main" id="contenido">
-	<div class="Container">
-		<div class="Grid">
-			<div class="Grid-item">
-				<div class="Box">
-					<div class="Box-header">Seleccioná el documento a firmar</div>
-					<div class="Box-body">
-						<form action="upload" method="POST" enctype="multipart/form-data">
-							<ul class="form-group-list">
-								<li><label></label> <input type="file"
-									accept="application/pdf" name="file"></li>
-								<li><label></label>
-									<button class="btn-lg btn-primario" type="submit">
-										Firmar documento</button></li>
-							</ul>
-						</form>
+		<div class="Container">
+			<div class="Grid">
+				<div class="Grid-item">
+					<div class="Box">
+						<div class="Box-header">Seleccioná el documento a firmar</div>
+						<div class="Box-body">
+							<form action="upload" method="POST" enctype="multipart/form-data">
+								<ul class="form-group-list">
+									<li>
+										<label></label>
+										<input type="file" accept="application/pdf" name="file">
+									</li>
+									<li>
+										<label></label>
+										<button class="btn-lg btn-primario" type="submit">
+											Firmar documento</button>
+									</li>
+								</ul>
+							</form>
+						</div>
 					</div>
+					<div id="footer" class="row" style="padding-bottom: 0px; padding-top: 0px"></div>
 				</div>
-				<div id="footer" class="row"
-					style="padding-bottom: 0px; padding-top: 0px"></div>
 			</div>
 		</div>
-	</div>
 	</main>
 
 	<main class="u-main" id="contenidovalidar">
-	<div class="Container">
-		<div class="Grid">
-			<div class="Grid-item">
-				<div class="Box">
-					<div class="Box-header">Corroborá si firmaste correctamente el documento</div>
-					<div class="Box-body">
-						<form action="validate" method="POST"
-							enctype="multipart/form-data">
-							<ul class="form-group-list">
-								<li><label></label> <input type="file"
-									accept="application/pdf" name="file"></li>
-								<li><label>Fecha a validar:</label> <input type="text"
-									id="datepicker" name="date"
-									style="width: 105px; min-width: 105px"></li>
-								<li><label></label>
-									<button class="btn-lg btn-primario" type="submit">
-										Corroborá la firma</button></li>
-							</ul>
-						</form>
+		<div class="Container">
+			<div class="Grid">
+				<div class="Grid-item">
+					<div class="Box">
+						<div class="Box-header">Corroborá si firmaste correctamente el documento</div>
+						<div class="Box-body">
+							<form action="validate" method="POST" enctype="multipart/form-data">
+								<ul class="form-group-list">
+									<li>
+										<label></label>
+										<input type="file" accept="application/pdf" name="file">
+									</li>
+									<li>
+										<label>Fecha a validar:</label>
+										<input type="text" id="datepicker" name="date" style="width: 105px; min-width: 105px">
+									</li>
+									<li>
+										<label></label>
+										<button class="btn-lg btn-primario" type="submit">
+											Corroborá la firma</button>
+									</li>
+								</ul>
+							</form>
+						</div>
 					</div>
-				</div>
-				<div id="footer" class="row">
-					<!-- <a href="" class="u-left">Contacto</a>-->
-					<img class="u-right" src="./img/logo-agesic.png" />
+					<div id="footer" class="row">
+						<!-- <a href="" class="u-left">Contacto</a>-->
+						<img class="u-right" src="./img/logo-agesic.png" />
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</main>
 
 	<script src="./dist/js/vendor/jquery.min.js"></script>
 	<script src="./dist/js/portal-tipo.min.js" async></script>
 
 </body>
+
 </html>
